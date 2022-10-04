@@ -94,6 +94,21 @@ router.put("/:id", (req, res, next) => {
     );
 });
 
+// DELETE 
+router.delete("/:id", (req, res, next) => {
+    eventdata.findOneAndDelete(
+        { _id: req.params.id },
+        req.body,
+        (error, data) => {
+            if (error) {
+                return next(error);
+            } else {
+                res.json(data);
+            }
+        }
+    );
+});
+
 //PUT add attendee to event
 router.put("/addAttendee/:id", (req, res, next) => {
     //only add attendee if not yet signed uo
@@ -105,6 +120,36 @@ router.put("/addAttendee/:id", (req, res, next) => {
             } else {
                 if (data.length == 0) {
                     eventdata.updateOne(
+                        { _id: req.params.id }, 
+                        { $push: { attendees: req.body.attendee } },
+                        (error, data) => {
+                            if (error) {
+                                consol
+                                return next(error);
+                            } else {
+                                res.json(data);
+                            }
+                        }
+                    );
+                }
+                
+            }
+        }
+    );
+    
+});
+
+// DELETE attendee from an event
+router.delete("/deleteAttendee/:id", (req, res, next) => {
+    //only add attendee if not yet signed uo
+    eventdata.find( 
+        { _id: req.params.id, attendees: req.body.attendee }, 
+        (error, data) => { 
+            if (error) {
+                return next(error);
+            } else {
+                if (data.length == 0) {
+                    eventdata.findOneAndDelete(
                         { _id: req.params.id }, 
                         { $push: { attendees: req.body.attendee } },
                         (error, data) => {
