@@ -169,4 +169,25 @@ router.delete("/deleteAttendee/:id", (req, res, next) => {
     
 });
 
+// code to get previous 2 months for dashboard
+//not functional
+//https://stackoverflow.com/questions/48307611/mongodb-query-group-collection-by-date-last-week-month-all-nodejs
+router.get('/recent-event', (req, res, next) => {
+    const today = new Date();
+    var twomonths = new Date();
+    twomonths.setMonth(twomonths.getMonth() - 2);   //establish two months prior
+
+    eventdata.aggregate([
+    { $match : { eventName : req.params.eventName, date : req.params.date} },
+    {$filter:{cond: {'$gte': twomonths}} }
+
+], (error, data) => {
+        if (error) {
+          return next(error)
+        } else {
+          res.json(data);
+        }
+    });
+  });
+
 module.exports = router;
