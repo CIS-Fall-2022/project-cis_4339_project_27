@@ -43,6 +43,7 @@ let primaryDataSchema = new Schema({
     },
     organization: {
         type: String,
+        default:process.env.organization,
         required: true
     }
 }, {
@@ -89,6 +90,7 @@ let eventDataSchema = new Schema({
     }],
     organization: {
         type: String,
+        default:process.env.organization,
         required: true
     }
 }, {

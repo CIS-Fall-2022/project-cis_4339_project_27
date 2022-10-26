@@ -48,7 +48,8 @@
           background: linear-gradient(250deg, #C8102E 70%, #efecec 50.6%);
         "
       >
-        <h1 class="mr-20 text-3xl text-white">Dataplatform</h1>
+      <!--Lori Vo. want to change according to what organization is using database-->
+        <h1 class="mr-20 text-3xl text-white">{{this.getHeader()}}</h1>
       </section>
       <div>
         <router-view></router-view>
@@ -60,6 +61,12 @@
 <script>
 export default {
   name: "App",
+  methods:{
+  getHeader:function(){
+    //https://vitejs.dev/guide/env-and-mode.html
+    let getOrganization = import.meta.env.VITE_ORGANIZATION;
+    return getOrganization;
+  }}
 };
 </script>
 

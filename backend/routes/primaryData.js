@@ -7,7 +7,7 @@ let { eventdata } = require("../models/models");
 
 //GET all entries
 router.get("/", (req, res, next) => { 
-    primarydata.find( 
+    primarydata.find( {organization: process.env.organization},
         (error, data) => {
             if (error) {
                 return next(error);
@@ -43,7 +43,7 @@ router.get("/search/", (req, res, next) => {
             "phoneNumbers.primaryPhone": { $regex: `^${req.query["phoneNumbers.primaryPhone"]}`, $options: "i" }
         }
     };
-    primarydata.find( 
+    primarydata.find( {organization: process.env.organization},
         dbQuery, 
         (error, data) => { 
             if (error) {

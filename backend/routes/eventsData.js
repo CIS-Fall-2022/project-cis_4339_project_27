@@ -6,7 +6,7 @@ let { eventdata } = require("../models/models");
 
 //GET all entries
 router.get("/", (req, res, next) => { 
-    eventdata.find( 
+    eventdata.find( {organization: process.env.organization},
         (error, data) => {
             if (error) {
                 return next(error);
@@ -39,7 +39,7 @@ router.get("/search/", (req, res, next) => {
             date:  req.query["eventDate"]
         }
     };
-    eventdata.find( 
+    eventdata.find( {organization: process.env.organization},
         dbQuery, 
         (error, data) => { 
             if (error) {
