@@ -8,6 +8,10 @@
 </template>
 <script>
 import Chart from 'chart.js/auto';
+import axios from 'axios';
+import moment from 'moment';
+//  import LineChart from "../components/LineChart"
+
 
 export default {
   methods: {
@@ -15,15 +19,38 @@ export default {
       this.$router.push({ name: routeName });
     },
   },
+    data() {
+    return{
+    clients: [],
+    events: []
+    }
+  },
+  async created() {
+    const {data} = await axios.get('http://localhost:3000/eventData/recentEvent/')
+
+    data.forEach(d => {
+      const date = d.date;
+      // const date = moment(d.date, "YYYY-MMM-DD").format("MM/DD");
+
+      const {
+        eventName,
+        attendees
+      } = d;
+
+      this.clients.push({date, total:attendees.length});
+      this.events.push({date, total:eventName})
+    console.log(this.clients)
+      
+    })
+  },
   mounted() {
-  console.log('Component mounted.')
-
-  const ctx = document.getElementById('myChart').getContext('2d');
-
+const ctx = document.getElementById('myChart').getContext('2d');
+  // myChart.config.data.labels = this.events
+  // myChart.update()
   const myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: [this.clients],
         datasets: [{
             label: '# of Votes',
             data: [12, 19, 3, 5, 2, 3],
@@ -54,7 +81,9 @@ export default {
         }
     }
 });
-
   }
-};
+}
 </script>
+
+
+  

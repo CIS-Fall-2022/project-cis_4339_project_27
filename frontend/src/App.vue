@@ -59,6 +59,8 @@
 </template>
 
 <script>
+// import axios from 'axios';
+// import moment from 'moment';
 export default {
   name: "App",
   methods:{
@@ -66,7 +68,34 @@ export default {
     //https://vitejs.dev/guide/env-and-mode.html
     let getOrganization = import.meta.env.VITE_ORGANIZATION;
     return getOrganization;
-  }}
+  }},
+  components: {
+
+  },
+  // data() {
+  //   return{
+  //   clients: [],
+  //   events: []
+  //   }
+  // },
+  // async created() {
+  //   const {data} = await axios.get('http://localhost:3000/eventData/recentEvent/')
+
+  //   data.forEach(d => {
+  //     const date = moment(d.date);
+  //     // const date = moment(d.date, "YYYY-MMM-DD").format("MM/DD");
+
+  //     const {
+  //       eventName,
+  //       attendees
+  //     } = d;
+
+  //     this.clients.push({date, total:attendees.length});
+  //     this.events.push({date, total:eventName})
+  //   console.log(this.clients)
+      
+  //   })
+  // },
 };
 </script>
 
