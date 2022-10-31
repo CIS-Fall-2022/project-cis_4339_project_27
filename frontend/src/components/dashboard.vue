@@ -18,42 +18,78 @@ export default {
     routePush(routeName) {
       this.$router.push({ name: routeName });
     },
+ getData(){
+  var url = 'http://localhost:3000/eventData/recentEvent/'
+  var headers = {
+    'Content-Type': 'application/json'
+  }
+  axios.get(url,headers)
+  .then((x)=>{
+    // console.log(x.data)
+    var results = x.data
+    var events = []
+    var attendants = []
+
+    for (var i = 0; i < results.length; i++) {
+      var t = results[i].eventName
+      var y = results[i].attendees.length
+      events.push(t)
+      attendants.push(y)
+    }
+    this.eventName = events
+    this.attendees = attendants
+    var getEvents = Object.values(this.eventName)
+    var getAtten = Object.values(this.attendees)
+    console.log(this.eventName)
+    console.log(this.attendees)
+    console.log(getEvents)
+    console.log(getAtten)
+  })
+ }
   },
     data() {
     return{
-    clients: [],
-    events: []
+    eventName: [],
+    attendees: []
     }
   },
-  async created() {
-    const {data} = await axios.get('http://localhost:3000/eventData/recentEvent/')
+  // async created() {
+  //   const {data} = await axios.get('http://localhost:3000/eventData/recentEvent/')
 
-    data.forEach(d => {
-      const date = d.date;
-      // const date = moment(d.date, "YYYY-MMM-DD").format("MM/DD");
+  //   data.forEach(d => {
+  //     const event = d.event;
+  //     // const date = moment(d.date, "YYYY-MMM-DD").format("MM/DD");
 
-      const {
-        eventName,
-        attendees
-      } = d;
-
-      this.clients.push({date, total:attendees.length});
-      this.events.push({date, total:eventName})
-    console.log(this.clients)
+  //     const {
+  //       eventName,
+  //       attendees
       
-    })
-  },
-  mounted() {
+  //     } = d;
+
+   
+
+  //     this.events.push({event:eventName,total: attendees.length })
+
+  //   console.log(this.events)
+   
+      
+  //   })
+  // },
+
+mounted() {
+this.getData()
+
+
 const ctx = document.getElementById('myChart').getContext('2d');
-  // myChart.config.data.labels = this.events
-  // myChart.update()
+
   const myChart = new Chart(ctx, {
     type: 'bar',
+    
     data: {
-        labels: [this.clients],
+        labels: [this.getEvents],
         datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            label: 'Event Attendance',
+            data: [this.getAtten] ,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -82,6 +118,7 @@ const ctx = document.getElementById('myChart').getContext('2d');
     }
 });
   }
+  
 }
 </script>
 
