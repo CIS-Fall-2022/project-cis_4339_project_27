@@ -44,6 +44,7 @@ export default {
     console.log(this.attendees)
     console.log(getEvents)
     console.log(getAtten)
+    return getEvents, getAtten
   })
  }
   },
@@ -76,20 +77,19 @@ export default {
   //   })
   // },
 
-mounted() {
-this.getData()
-
-
+async mounted() {
+await this.getData()
+console.log(this.getAtten)
 const ctx = document.getElementById('myChart').getContext('2d');
 
-  const myChart = new Chart(ctx, {
+  var myChart = new Chart(ctx, {
     type: 'bar',
     
     data: {
-        labels: [this.getEvents],
+        labels: ['mixer', 'event2'],
         datasets: [{
             label: 'Event Attendance',
-            data: [this.getAtten] ,
+            data: [2,1] ,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
