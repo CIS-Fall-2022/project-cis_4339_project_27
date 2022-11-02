@@ -18,7 +18,7 @@ export default {
     routePush(routeName) {
       this.$router.push({ name: routeName });
     },
- getData(){
+     getData(){
   var url = 'http://localhost:3000/eventData/recentEvent/'
   var headers = {
     'Content-Type': 'application/json'
@@ -47,6 +47,7 @@ export default {
     return getEvents, getAtten
   })
  }
+
   },
     data() {
     return{
@@ -79,17 +80,19 @@ export default {
 
 async mounted() {
 await this.getData()
+
 console.log(this.getAtten)
+
 const ctx = document.getElementById('myChart').getContext('2d');
 
   var myChart = new Chart(ctx, {
     type: 'bar',
     
     data: {
-        labels: ['mixer', 'event2'],
+        labels: [this.getEvents[0]],
         datasets: [{
             label: 'Event Attendance',
-            data: [2,1] ,
+            data: this.getAtten[0] ,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
