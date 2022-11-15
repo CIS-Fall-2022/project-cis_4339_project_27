@@ -2,59 +2,64 @@
   <main>
     <div>
       <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Welcome</h1>
-      <canvas id="myChart" width="400" height="400"></canvas>
+      <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
+                  <EnrollmentBar
+              v-if="!loading && !error"
+              :label="labels"
+              :chart-data="enrolled"
+            ></EnrollmentBar>
     </div>
   </main>
 </template>
 <script>
-import Chart from 'chart.js/auto';
-import axios from 'axios';
-import moment from 'moment';
-//  import LineChart from "../components/LineChart"
+// import Chart from 'chart.js/auto';
+// import axios from 'axios';
+// import moment from 'moment';
+// //  import LineChart from "../components/LineChart"
 
 
-export default {
-  methods: {
-    routePush(routeName) {
-      this.$router.push({ name: routeName });
-    },
-     getData(){
-  var url = 'http://localhost:3000/eventData/recentEvent/'
-  var headers = {
-    'Content-Type': 'application/json'
-  }
-  axios.get(url,headers)
-  .then((x)=>{
-    // console.log(x.data)
-    var results = x.data
-    var events = []
-    var attendants = []
+// export default {
+//   methods: {
+//     routePush(routeName) {
+//       this.$router.push({ name: routeName });
+//     },
+//      getData(){
+//   var url = 'http://localhost:3000/eventData/recentEvent/'
+//   var headers = {
+//     'Content-Type': 'application/json'
+//   }
+//   axios.get(url,headers)
+//   .then((x)=>{
+//     // console.log(x.data)
+//     var results = x.data
+//     var events = []
+//     var attendants = []
 
-    for (var i = 0; i < results.length; i++) {
-      var t = results[i].eventName
-      var y = results[i].attendees.length
-      events.push(t)
-      attendants.push(y)
-    }
-    this.eventName = events
-    this.attendees = attendants
-    var getEvents = Object.values(this.eventName)
-    var getAtten = Object.values(this.attendees)
-    console.log(this.eventName)
-    console.log(this.attendees)
-    console.log(getEvents)
-    console.log(getAtten)
-    return getEvents, getAtten
-  })
- }
+//     for (var i = 0; i < results.length; i++) {
+//       var t = results[i].eventName
+//       var y = results[i].attendees.length
+//       events.push(t)
+//       attendants.push(y)
+//     }
+//     this.eventName = events
+//     this.attendees = attendants
+//     var getEvents = Object.values(this.eventName)
+//     var getAtten = Object.values(this.attendees)
+//     console.log(this.eventName)
+//     console.log(this.attendees)
+//     console.log(getEvents)
+//     console.log(getAtten)
+//     return getEvents, getAtten
+//   })
+//  }
 
-  },
-    data() {
-    return{
-    eventName: [],
-    attendees: []
-    }
-  },
+//   },
+//     data() {
+//     return{
+//     eventName: [],
+//     attendees: []
+//     }
+//   },
   // async created() {
   //   const {data} = await axios.get('http://localhost:3000/eventData/recentEvent/')
 
@@ -78,51 +83,62 @@ export default {
   //   })
   // },
 
-async mounted() {
-await this.getData()
+import axios from "axios";
+import EnrollmentBar from "@/components/BarChart.vue";
 
-console.log(this.getAtten)
-
-const ctx = document.getElementById('myChart').getContext('2d');
-
-  var myChart = new Chart(ctx, {
-    type: 'bar',
-    
-    data: {
-        labels: [this.getEvents[0]],
-        datasets: [{
-            label: 'Event Attendance',
-            data: this.getAtten[0] ,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
+export default {
+  components: {
+    EnrollmentBar,
+  },
+  data() {
+    return {
+      labels: [],
+      enrolled: [],
+      count: [],
+      loading: false,
+      error: null,
+    };
+  },
+  methods: {
+    async fetchData() {
+      try {
+        this.error = null;
+        this.loading = true;
+        const url = `http://localhost:3000/eventData/recentEvent/`;
+        const response = await axios.get(url);
+        //"re-organizing" - mapping json from the response
+        this.labels = response.data.map((event) => event.eventName);
+        this.enrolled = response.data.map((event) => event.attendees.length);
+      //  this.count = this.enrolled.length
+      } catch (err) {
+        if (err.response) {
+          // client received an error response (5xx, 4xx)
+          this.error = {
+            title: "Server Response",
+            message: err.message,
+          };
+        } else if (err.request) {
+          // client never received a response, or request never left
+          this.error = {
+            title: "Unable to Reach Server",
+            message: err.message,
+          };
+        } else {
+          // There's probably an error in your code
+          this.error = {
+            title: "Application Error",
+            message: err.message,
+          };
         }
-    }
-});
-  }
-  
-}
+      }
+      this.loading = false;
+    },
+  },
+  mounted() {
+    this.fetchData();
+  },
+};
+
 </script>
 
 
