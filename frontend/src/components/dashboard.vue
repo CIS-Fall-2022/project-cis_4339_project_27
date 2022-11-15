@@ -3,11 +3,11 @@
     <div>
       <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Welcome</h1>
       <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
-                  <EnrollmentBar
+                  <AttendanceBar
               v-if="!loading && !error"
               :label="labels"
-              :chart-data="enrolled"
-            ></EnrollmentBar>
+              :chart-data="attending"
+            ></AttendanceBar>
     </div>
   </main>
 </template>
@@ -84,16 +84,16 @@
   // },
 
 import axios from "axios";
-import EnrollmentBar from "@/components/BarChart.vue";
+import AttendanceBar from "@/components/BarChart.vue";
 
 export default {
   components: {
-    EnrollmentBar,
+    AttendanceBar,
   },
   data() {
     return {
       labels: [],
-      enrolled: [],
+      attending: [],
       count: [],
       loading: false,
       error: null,
@@ -108,8 +108,7 @@ export default {
         const response = await axios.get(url);
         //"re-organizing" - mapping json from the response
         this.labels = response.data.map((event) => event.eventName);
-        this.enrolled = response.data.map((event) => event.attendees.length);
-      //  this.count = this.enrolled.length
+        this.attending = response.data.map((event) => event.attendees.length);
       } catch (err) {
         if (err.response) {
           // client received an error response (5xx, 4xx)
