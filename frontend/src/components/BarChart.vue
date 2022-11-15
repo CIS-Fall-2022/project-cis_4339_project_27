@@ -24,7 +24,7 @@ export default {
         datasets: [
           {
             label: "Attendance",
-            backgroundColor: "rgba(144,238,144 , 0.9 )",
+            backgroundColor: "rgba(255,99,71 , 0.9 )",
             data: this.chartData,
           },
         ],
@@ -32,7 +32,8 @@ export default {
       options: {
         scales: {
             y: {
-                min: 0
+                min: 0,
+                
             }
         }
       }
