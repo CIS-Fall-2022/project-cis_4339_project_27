@@ -9,6 +9,23 @@
               :chart-data="attending"
             ></AttendanceBar>
     </div>
+    <div>
+    <table class="table-fixed">
+    <thead>
+    <tr>
+    <th scope="col"> Events</th>
+    <th scope="col"> # Of Attendants</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="event in events">
+    <td>{{event.eventName}}</td>
+    <td>{{event.attendees.length}}</td>
+    </tr>
+    </tbody>
+    </table>
+    
+    </div>
   </main>
 </template>
 <script>
@@ -94,7 +111,7 @@ export default {
     return {
       labels: [],
       attending: [],
-      count: [],
+      events: [],
       loading: false,
       error: null,
     };
@@ -106,9 +123,11 @@ export default {
         this.loading = true;
         const url = `http://localhost:3000/eventData/recentEvent/`;
         const response = await axios.get(url);
+        
         //"re-organizing" - mapping json from the response
         this.labels = response.data.map((event) => event.eventName);
         this.attending = response.data.map((event) => event.attendees.length);
+        this.events = response.data
       } catch (err) {
         if (err.response) {
           // client received an error response (5xx, 4xx)
