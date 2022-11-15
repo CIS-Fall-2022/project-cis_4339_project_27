@@ -4,7 +4,7 @@
     
     </div>
     <div class="column"> 
-      <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Welcome</h1>
+      <h1 class="font-bold text-4xl  tracking-widest text-center mt-10">Welcome</h1>
       <br>
        <div class="column">
     <table class="table" border="1" width="100%" ID="Table2" style="margin: 0px;">

@@ -45,7 +45,7 @@
       <section
         class="justify-end items-center h-24 flex"
         style="
-          background: linear-gradient(250deg, #C8102E 70%, #efecec 50.6%);
+          background: linear-gradient(250deg, #398AD7 70%, #efecec 50.6%);
         "
       >
       <!--Lori Vo. want to change according to what organization is using database-->
@@ -101,7 +101,7 @@ export default {
 
 <style>
 #_container {
-  background-color: #c8102e;
+  background-color: #2F66A9;
   color: white;
   padding: 18px;
 }
