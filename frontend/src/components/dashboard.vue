@@ -1,16 +1,13 @@
 <template>
   <main>
-    <div>
-      <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Welcome</h1>
-      <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
-                  <AttendanceBar
-              v-if="!loading && !error"
-              :label="labels"
-              :chart-data="attending"
-            ></AttendanceBar>
+    <div class="row">
+    
     </div>
-    <div>
-    <table class="table-fixed">
+    <div class="column"> 
+      <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Welcome</h1>
+      <br>
+       <div class="column">
+    <table class="table" border="1" width="100%" ID="Table2" style="margin: 0px;">
     <thead>
     <tr>
     <th scope="col"> Events</th>
@@ -24,8 +21,16 @@
     </tr>
     </tbody>
     </table>
-    
+    <br>
     </div>
+      <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
+                  <AttendanceBar
+              v-if="!loading && !error"
+              :label="labels"
+              :chart-data="attending"
+            ></AttendanceBar>
+    </div>
+   
   </main>
 </template>
 <script>
