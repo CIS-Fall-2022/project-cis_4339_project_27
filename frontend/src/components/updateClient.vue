@@ -113,9 +113,21 @@ export default {
         });
       });
     },
-    addToEvent() {
-      this.eventsChosen.forEach((event) => {
-        let apiURL =
+    addToEvent() {    
+      let errorIncidents =[] 
+      this.eventsChosen.forEach((event) => { 
+        let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/client/${this.$route.params.id}` //verify the client not already added to the event.
+        axios.get(apiURL).then((resp) => {    
+          let data = resp.data;
+          for (let i = 0; i < data.length; i++) {
+            if (data[i]["_id"] == event._id) {
+              errorIncidents.push(data[i].eventName)
+              if (errorIncidents.length > 0 && this.eventsChosen[this.eventsChosen.length - 1] == event) {  
+                  alert ('The event already exists' )     //error handling
+                }      
+            }
+          }
+        apiURL =
           import.meta.env.VITE_ROOT_API + `/eventdata/addAttendee/` + event._id;
         axios.put(apiURL, { attendee: this.$route.params.id }).then(() => {
           this.clientEvents = [];
@@ -132,6 +144,7 @@ export default {
                 });
               }
             });
+          });
         });
       });
     },
