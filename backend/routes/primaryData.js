@@ -92,6 +92,7 @@ router.put("/:id", (req, res, next) => {
     );
 });
 
+// DELETE
 router.delete("/:id", (req, res, next) => { 
     primarydata.findOneAndDelete( 
         { _id: req.params.id }, 

@@ -123,7 +123,7 @@ export default {
             if (data[i]["_id"] == event._id) {
               errorIncidents.push(data[i].eventName)
               if (errorIncidents.length > 0 && this.eventsChosen[this.eventsChosen.length - 1] == event) {  
-                  alert ('The event already exists' )     //error handling
+                  alert ('The client already exists in the attendance list' )     //error handling
                 }      
             }
           }
